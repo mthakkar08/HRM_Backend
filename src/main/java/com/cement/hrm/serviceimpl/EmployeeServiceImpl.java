@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cement.hrm.model.Employee;
 import com.cement.hrm.repository.EmployeeRepository;
+import com.cement.hrm.request.LoginRequest;
 import com.cement.hrm.service.EmployeeService;
 
 @Service
@@ -17,29 +18,36 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	@Override
-	public Employee addEditEmployee(Employee employee) {
-		Optional<Employee> empInDb = employeeRepository.findById(employee.getEmployeeId());
-		if (empInDb.isPresent()) {
-			Employee empToDb = new Employee();
-			empToDb = empInDb.get();
-			empToDb.setEmployeeName(employee.getEmployeeName());
-			empToDb.setDob(employee.getDob());
-			empToDb.setGender(employee.getGender());
-			empToDb.setPhoneNumber(employee.getPhoneNumber());
-			empToDb.setEmail(employee.getEmail());
-			empToDb.setPassword(employee.getPassword());
-			empToDb.setAddress(employee.getAddress());
-			empToDb.setDesignation(employee.getDesignation());
-			empToDb.setExperience(employee.getExperience());
-			empToDb.setStatus(employee.getStatus());
-			empToDb.setHiringDate(employee.getHiringDate());
-			empToDb.setJoiningDate(employee.getJoiningDate());
-			empToDb.setTerminationDate(employee.getTerminationDate());
-			empToDb.setCreatedBy(employee.getCreatedBy());
-			return employeeRepository.save(empToDb);
-		} else {
-			return employeeRepository.save(employee);
+	public String addEditEmployee(Employee employee) {
+		try {
+			Optional<Employee> empInDb = employeeRepository.findById(employee.getEmployeeId());
+			if (empInDb.isPresent()) {
+				Employee empToDb = new Employee();
+				empToDb = empInDb.get();
+				empToDb.setEmployeeName(employee.getEmployeeName());
+				empToDb.setDob(employee.getDob());
+				empToDb.setGender(employee.getGender());
+				empToDb.setPhoneNumber(employee.getPhoneNumber());
+				empToDb.setEmail(employee.getEmail());
+				empToDb.setPassword(employee.getPassword());
+				empToDb.setAddress(employee.getAddress());
+				empToDb.setDesignation(employee.getDesignation());
+				empToDb.setExperience(employee.getExperience());
+				empToDb.setStatus(employee.getStatus());
+				empToDb.setHiringDate(employee.getHiringDate());
+				empToDb.setJoiningDate(employee.getJoiningDate());
+				empToDb.setTerminationDate(employee.getTerminationDate());
+				empToDb.setCreatedBy(employee.getCreatedBy());
+				employeeRepository.save(empToDb);
+				return "Updated successfully";
+			} else {
+				employeeRepository.save(employee);
+				return "Saved successfully";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return null;
 
 	}
 
@@ -60,12 +68,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void deleteEmployeeById(int employeeId) {
-		boolean isPresent = employeeRepository.existsById(employeeId);
-		if (isPresent) {
-			employeeRepository.deleteById(employeeId);
+	public String deleteEmployeeById(int employeeId) {
+		try {
+			boolean isPresent = employeeRepository.existsById(employeeId);
+			if (isPresent) {
+				employeeRepository.deleteById(employeeId);
+				return "Deleted Successfully";
+			} else {
+				return "Employee Doesn't Exist.";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return null;
 
+	}
+
+	@Override
+	public boolean loginEmployee(LoginRequest loginRequest) {
+		String status = employeeRepository.validateUsernameAndPassword(loginRequest.getEmail(),
+				loginRequest.getPassword());
+		return Boolean.parseBoolean(status);
 	}
 
 }

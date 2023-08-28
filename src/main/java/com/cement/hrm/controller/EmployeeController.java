@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cement.hrm.constant.UrlConstants;
 import com.cement.hrm.model.Employee;
+import com.cement.hrm.request.LoginRequest;
 import com.cement.hrm.service.EmployeeService;
 
 @RestController
@@ -33,7 +34,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping(UrlConstants.EMPLOYEE_ADD_EDIT)
-	public ResponseEntity<Employee> addEditEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<String> addEditEmployee(@RequestBody Employee employee) {
 		return new ResponseEntity<>(employeeService.addEditEmployee(employee), HttpStatus.OK);
 	}
 
@@ -44,9 +45,14 @@ public class EmployeeController {
 		return new ResponseEntity<>(employeeService.fecthAllEmployeeBySearch(employeeName, designation, status, email),
 				HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(UrlConstants.EMPLOYEE_DELETE)
-	public void deleteEmployeeById(@Param("employeeId") int employeeId) {
-		employeeService.deleteEmployeeById(employeeId);
+	public String deleteEmployeeById(@Param("employeeId") int employeeId) {
+		return employeeService.deleteEmployeeById(employeeId);
+	}
+
+	@PostMapping("/login")
+	public boolean loginEmployee(@RequestBody LoginRequest loginRequest) {
+		return employeeService.loginEmployee(loginRequest);
 	}
 }
