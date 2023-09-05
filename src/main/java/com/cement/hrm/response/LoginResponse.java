@@ -2,14 +2,16 @@ package com.cement.hrm.response;
 
 public class LoginResponse {
 
-	private String status;
+	private final String jwttoken;
 
-	public String getStatus() {
-		return status;
+	public LoginResponse(String jwttoken) {
+		super();
+		this.jwttoken = jwttoken;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public String getJwttoken() {
+		return jwttoken;
 	}
 
+	
 }

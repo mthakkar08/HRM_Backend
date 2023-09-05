@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cement.hrm.constant.UrlConstants;
 import com.cement.hrm.model.Employee;
+import com.cement.hrm.request.EmployeeRequest;
 import com.cement.hrm.request.LoginRequest;
+import com.cement.hrm.response.LoginResponse;
+import com.cement.hrm.security.JwtTokenUtil;
 import com.cement.hrm.service.EmployeeService;
 
 @RestController
@@ -28,31 +36,74 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(UrlConstants.EMPLOYEE_BY_ID)
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	//@PostMapping(UrlConstants.AUTHENTICATION)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest)
+			throws Exception {
+
+		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+
+		final UserDetails userDetails = employeeService.loadUserByUsername(authenticationRequest.getEmail());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new LoginResponse(token));
+	}
+
+	@GetMapping(UrlConstants.GET_BY_ID)
 	public Employee getEmployeeById(@Param("employeeId") int employeeId) {
 		return employeeService.getEmployeeById(employeeId);
 	}
 
-	@PostMapping(UrlConstants.EMPLOYEE_ADD_EDIT)
+	@PostMapping(UrlConstants.LIST)
+	@Transactional(readOnly = true)
+	public ResponseEntity<List<Employee>> fecthAllEmployeeBySearch(@RequestBody EmployeeRequest searchRequest) {
+		return new ResponseEntity<>(employeeService.fecthAllEmployeeBySearch(searchRequest), HttpStatus.OK);
+	}
+
+	@PostMapping(UrlConstants.ADD_EDIT)
 	public ResponseEntity<String> addEditEmployee(@RequestBody Employee employee) {
 		return new ResponseEntity<>(employeeService.addEditEmployee(employee), HttpStatus.OK);
 	}
 
-	@GetMapping(UrlConstants.EMPLOYEE_LIST)
-	@Transactional(readOnly = true)
-	public ResponseEntity<List<Employee>> fecthAllEmployeeBySearch(@Param("employeeName") String employeeName,
-			@Param("designation") String designation, @Param("status") int status, @Param("email") String email) {
-		return new ResponseEntity<>(employeeService.fecthAllEmployeeBySearch(employeeName, designation, status, email),
-				HttpStatus.OK);
-	}
-
-	@DeleteMapping(UrlConstants.EMPLOYEE_DELETE)
+	@DeleteMapping(UrlConstants.DELETE)
 	public String deleteEmployeeById(@Param("employeeId") int employeeId) {
 		return employeeService.deleteEmployeeById(employeeId);
 	}
 
-	@PostMapping("/login")
-	public boolean loginEmployee(@RequestBody LoginRequest loginRequest) {
-		return employeeService.loginEmployee(loginRequest);
+	@PostMapping(UrlConstants.LOG_IN)
+	public ResponseEntity<?> loginEmployee(@RequestBody LoginRequest loginRequest) throws Exception {
+		 boolean status=employeeService.loginEmployee(loginRequest);
+		 if(status) {
+			ResponseEntity<?> token= createAuthenticationToken(loginRequest);
+			return token;
+		 }
+		 return new ResponseEntity<>("Bad Credentials",HttpStatus.BAD_REQUEST);
 	}
+
+	@PostMapping(UrlConstants.FORGET)
+	public ResponseEntity<String> forgetPassword(@RequestBody EmployeeRequest forgetRequest) {
+		return new ResponseEntity<>(employeeService.forgetPassword(forgetRequest.getEmail()), HttpStatus.OK);
+	}
+
+	@PostMapping(UrlConstants.RESET)
+	public ResponseEntity<String> resetPassword(@RequestBody EmployeeRequest resetRequest) {
+		return new ResponseEntity<>(employeeService.resetPassword(resetRequest), HttpStatus.OK);
+	}
+
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
+
 }

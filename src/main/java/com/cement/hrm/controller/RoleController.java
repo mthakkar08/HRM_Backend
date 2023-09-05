@@ -27,24 +27,24 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-	@GetMapping(UrlConstants.ROLE_BY_ID)
+	@GetMapping(UrlConstants.GET_BY_ID)
 	public ResponseEntity<Role> getRoleById(@Param("roleId") int roleId) {
 		return roleService.getRoleById(roleId);
 	}
 
-	@GetMapping(UrlConstants.ROLE_LIST)
+	@GetMapping(UrlConstants.LIST)
 	@Transactional(readOnly = true)
 	public ResponseEntity<List<Role>> fecthAllRoleBySearch(@Param("roleName") String roleName,
 			@Param("status") int status) {
 		return roleService.fecthAllRoleBySearch(roleName, status);
 	}
 
-	@PostMapping(UrlConstants.ROLE_ADD_EDIT)
+	@PostMapping(UrlConstants.ADD_EDIT)
 	public ResponseEntity<Role> addEditRole(@RequestBody Role role) {
 		return new ResponseEntity<>(roleService.addEditRole(role), HttpStatus.OK);
 	}
 
-	@DeleteMapping(UrlConstants.ROLE_DELETE)
+	@DeleteMapping(UrlConstants.DELETE)
 	public ResponseEntity<?> deleteRoleById(@Param("roleId") int roleId) {
 		return roleService.deleteRoleById(roleId);
 	}

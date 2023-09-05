@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,7 +28,7 @@ public class Employee {
 	private String dob;
 
 	@Column(name = "Gender")
-	private String gender;
+	private int gender;
 
 	@Column(name = "PhoneNumber")
 	private long phoneNumber;
@@ -41,8 +42,9 @@ public class Employee {
 	@Column(name = "Address")
 	private String address;
 
-	@Column(name = "Designation")
-	private String designation;
+	@OneToOne
+	@JoinColumn(name = "DesignationId")
+	private Designation designation;
 
 	@Column(name = "Experience")
 	private String experience;
@@ -70,8 +72,14 @@ public class Employee {
 		super();
 	}
 
-	public Employee(int employeeId, String employeeName, String dob, String gender, long phoneNumber, String email,
-			String password, String address, String designation, String experience, int status, Date hiringDate,
+	public Employee(String employeeName, String email, String password) {
+		this.employeeName = employeeName;
+		this.email = email;
+		this.password = password;
+	}
+
+	public Employee(int employeeId, String employeeName, String dob, int gender, long phoneNumber, String email,
+			String password, String address, Designation designation, String experience, int status, Date hiringDate,
 			Date joiningDate, Date terminationDate, int createdBy, Role role) {
 		super();
 		this.employeeId = employeeId;
@@ -116,11 +124,11 @@ public class Employee {
 		this.dob = dob;
 	}
 
-	public String getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
@@ -156,11 +164,11 @@ public class Employee {
 		this.address = address;
 	}
 
-	public String getDesignation() {
+	public Designation getDesignation() {
 		return designation;
 	}
 
-	public void setDesignation(String designation) {
+	public void setDesignation(Designation designation) {
 		this.designation = designation;
 	}
 
