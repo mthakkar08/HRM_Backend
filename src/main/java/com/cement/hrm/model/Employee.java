@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -42,9 +41,15 @@ public class Employee {
 	@Column(name = "Address")
 	private String address;
 
-	@OneToOne
-	@JoinColumn(name = "DesignationId")
-	private Designation designation;
+//	@OneToOne
+//	@JoinColumn(name = "DesignationId")
+//	private Designation designation;
+
+	@Column(name = "DesignationId")
+	private int designationId;
+
+	@Column(name = "DesignationName")
+	private String designationName;
 
 	@Column(name = "Experience")
 	private String experience;
@@ -79,8 +84,8 @@ public class Employee {
 	}
 
 	public Employee(int employeeId, String employeeName, String dob, int gender, long phoneNumber, String email,
-			String password, String address, Designation designation, String experience, int status, Date hiringDate,
-			Date joiningDate, Date terminationDate, int createdBy, Role role) {
+			String password, String address, int designationId, String designationName, String experience, int status,
+			Date hiringDate, Date joiningDate, Date terminationDate, int createdBy, Role role) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
@@ -90,7 +95,8 @@ public class Employee {
 		this.email = email;
 		this.password = password;
 		this.address = address;
-		this.designation = designation;
+		this.designationId = designationId;
+		this.designationName = designationName;
 		this.experience = experience;
 		this.status = status;
 		this.hiringDate = hiringDate;
@@ -164,12 +170,20 @@ public class Employee {
 		this.address = address;
 	}
 
-	public Designation getDesignation() {
-		return designation;
+	public int getDesignationId() {
+		return designationId;
 	}
 
-	public void setDesignation(Designation designation) {
-		this.designation = designation;
+	public void setDesignationId(int designationId) {
+		this.designationId = designationId;
+	}
+
+	public String getDesignationName() {
+		return designationName;
+	}
+
+	public void setDesignationName(String designationName) {
+		this.designationName = designationName;
 	}
 
 	public String getExperience() {

@@ -42,17 +42,14 @@ public class EmployeeController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	//@PostMapping(UrlConstants.AUTHENTICATION)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest)
-			throws Exception {
-
-		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-
-		final UserDetails userDetails = employeeService.loadUserByUsername(authenticationRequest.getEmail());
-
-		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new LoginResponse(token));
+	@PostMapping(UrlConstants.LOG_IN)
+	public ResponseEntity<?> loginEmployee(@RequestBody LoginRequest loginRequest) throws Exception {
+		boolean status = employeeService.loginEmployee(loginRequest);
+		if (status) {
+			ResponseEntity<?> token = createAuthenticationToken(loginRequest);
+			return token;
+		}
+		return new ResponseEntity<>("Bad Credentials", HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping(UrlConstants.GET_BY_ID)
@@ -76,16 +73,6 @@ public class EmployeeController {
 		return employeeService.deleteEmployeeById(employeeId);
 	}
 
-	@PostMapping(UrlConstants.LOG_IN)
-	public ResponseEntity<?> loginEmployee(@RequestBody LoginRequest loginRequest) throws Exception {
-		 boolean status=employeeService.loginEmployee(loginRequest);
-		 if(status) {
-			ResponseEntity<?> token= createAuthenticationToken(loginRequest);
-			return token;
-		 }
-		 return new ResponseEntity<>("Bad Credentials",HttpStatus.BAD_REQUEST);
-	}
-
 	@PostMapping(UrlConstants.FORGET)
 	public ResponseEntity<String> forgetPassword(@RequestBody EmployeeRequest forgetRequest) {
 		return new ResponseEntity<>(employeeService.forgetPassword(forgetRequest.getEmail()), HttpStatus.OK);
@@ -94,6 +81,23 @@ public class EmployeeController {
 	@PostMapping(UrlConstants.RESET)
 	public ResponseEntity<String> resetPassword(@RequestBody EmployeeRequest resetRequest) {
 		return new ResponseEntity<>(employeeService.resetPassword(resetRequest), HttpStatus.OK);
+	}
+	
+	@PostMapping(UrlConstants.STATUS)
+	public ResponseEntity<String> updateEmployeeStatus(@RequestBody EmployeeRequest statusRequest) {
+		return new ResponseEntity<>(employeeService.updateEmployeeStatus(statusRequest), HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest)
+			throws Exception {
+
+		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+
+		final UserDetails userDetails = employeeService.loadUserByUsername(authenticationRequest.getEmail());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new LoginResponse(token));
 	}
 
 	private void authenticate(String username, String password) throws Exception {

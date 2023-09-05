@@ -24,4 +24,6 @@ public interface EmployeeService extends UserDetailsService {
 
 	String resetPassword(EmployeeRequest resetRequest);
 
+	String updateEmployeeStatus(EmployeeRequest statusRequest);
+
 }

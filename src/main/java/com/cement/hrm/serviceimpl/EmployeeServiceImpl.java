@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String addEditEmployee(Employee employee) {
 		return employeeRepository.addEditEmployee(employee.getEmployeeId(), employee.getEmployeeName(),
 				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
-				employee.getPassword(), employee.getAddress(), employee.getDesignation().getDesignationId(),
+				employee.getPassword(), employee.getAddress(), employee.getDesignationId(),
 				employee.getExperience(), employee.getStatus(), employee.getHiringDate(), employee.getJoiningDate(),
 				employee.getTerminationDate());
 //		try {
@@ -125,6 +125,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String resetPassword(EmployeeRequest resetRequest) {
 		return employeeRepository.resetEmployeePassword(resetRequest.getEmail(), resetRequest.getPassword());
 
+	}
+
+	@Override
+	public String updateEmployeeStatus(EmployeeRequest statusRequest) {
+		Optional<Employee> empInDb=employeeRepository.findById(statusRequest.getEmployeeId());
+		if(empInDb.isPresent()) {
+			empInDb.get().setStatus(statusRequest.getStatus());
+			employeeRepository.save(empInDb.get());
+			return "SUCCESS";
+		}
+		return "ERROR";
 	}
 
 }

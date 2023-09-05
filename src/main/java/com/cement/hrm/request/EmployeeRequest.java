@@ -2,11 +2,20 @@ package com.cement.hrm.request;
 
 public class EmployeeRequest {
 
+	private int employeeId;
 	private String employeeName;
 	private String email;
 	private int designation;
 	private int status;
 	private String password;
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
 
 	public String getEmployeeName() {
 		return employeeName;

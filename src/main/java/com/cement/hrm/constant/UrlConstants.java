@@ -15,5 +15,6 @@ public final class UrlConstants {
 	public static final String DELETE = "/delete";
 	public static final String FORGET = "/forget";
 	public static final String RESET = "/reset";
+	public static final String STATUS = "/status";
 
 }
