@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cement.hrm.constant.UrlConstants;
 import com.cement.hrm.model.Holiday;
-import com.cement.hrm.model.SearchRequest;
+import com.cement.hrm.request.HolidayRequest;
 import com.cement.hrm.service.HolidayService;
 
 @RestController
@@ -39,7 +39,7 @@ public class HolidayController {
 
 	@GetMapping(UrlConstants.LIST)
 	@Transactional(readOnly = true)
-	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody SearchRequest searchRequest) throws ParseException {
+	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody HolidayRequest searchRequest) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date from = formatter.parse(searchRequest.getFromDate());
 		Date to = formatter.parse(searchRequest.getToDate());
