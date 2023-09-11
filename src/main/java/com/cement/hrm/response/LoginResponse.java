@@ -1,15 +1,24 @@
 package com.cement.hrm.response;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 public class LoginResponse {
 
-	private String status;
+	private final String jwttoken;
+	private final UserDetails userDetails;
 
-	public String getStatus() {
-		return status;
+	public LoginResponse(String jwttoken, UserDetails userDetails) {
+		super();
+		this.jwttoken = jwttoken;
+		this.userDetails = userDetails;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public String getJwttoken() {
+		return jwttoken;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
 	}
 
 }
