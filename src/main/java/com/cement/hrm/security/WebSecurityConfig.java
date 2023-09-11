@@ -33,7 +33,7 @@ public class WebSecurityConfig {
 	private JwtRequestFilter jwtRequestFilter;
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
 

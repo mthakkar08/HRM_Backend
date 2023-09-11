@@ -2,6 +2,7 @@ package com.cement.hrm.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.cement.hrm.model.Employee;
@@ -10,15 +11,15 @@ import com.cement.hrm.request.LoginRequest;
 
 public interface EmployeeService extends UserDetailsService {
 
-	String addEditEmployee(Employee employee);
-
-	List<Employee> fecthAllEmployeeBySearch(EmployeeRequest searchRequest);
+	ResponseEntity<?> loginEmployee(LoginRequest loginRequest);
 
 	Employee getEmployeeById(int employeeId);
 
-	String deleteEmployeeById(int employeeId);
+	List<Employee> fetchAllEmployeeBySearch(EmployeeRequest searchRequest);
 
-	boolean loginEmployee(LoginRequest loginRequest);
+	String addEditEmployee(Employee employee);
+
+	String deleteEmployeeById(int employeeId);
 
 	String forgetPassword(String email);
 

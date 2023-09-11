@@ -13,7 +13,7 @@ import com.cement.hrm.model.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Procedure(value = "fecthAllEmployeeBySearch")
-	public List<Employee> fecthAllEmployeeBySearch(@Param("EmployeeName") String employeeName,
+	public List<Employee> fetchAllEmployeeBySearch(@Param("EmployeeName") String employeeName,
 			@Param("Designation") int designation, @Param("Status") int status, @Param("Email") String email);
 
 	@Query(value = "EXEC validateUsernameAndPassword :Email, :Password", nativeQuery = true)
