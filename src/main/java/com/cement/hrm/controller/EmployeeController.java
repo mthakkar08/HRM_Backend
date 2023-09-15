@@ -19,6 +19,7 @@ import com.cement.hrm.constant.UrlConstants;
 import com.cement.hrm.model.Employee;
 import com.cement.hrm.request.EmployeeRequest;
 import com.cement.hrm.request.LoginRequest;
+import com.cement.hrm.response.ReportingEmployee;
 import com.cement.hrm.service.EmployeeService;
 
 @RestController
@@ -69,6 +70,11 @@ public class EmployeeController {
 	@PostMapping(UrlConstants.STATUS)
 	public ResponseEntity<String> updateEmployeeStatus(@RequestBody EmployeeRequest statusRequest) {
 		return new ResponseEntity<>(employeeService.updateEmployeeStatus(statusRequest), HttpStatus.OK);
+	}
+
+	@GetMapping(UrlConstants.BIND_LIST)
+	public ResponseEntity<List<ReportingEmployee>> bindEmployeeList() {
+		return new ResponseEntity<>(employeeService.bindEmployeeList(), HttpStatus.OK);
 	}
 
 }

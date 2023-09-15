@@ -36,4 +36,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query(value = "EXEC resetEmployeePassword :Email, :Password", nativeQuery = true)
 	public String resetEmployeePassword(@Param("Email") String email, @Param("Password") String password);
 
+	@Query(value = "EXEC bindEmployeeList", nativeQuery = true)
+	public String bindEmployeeList();
+
 }

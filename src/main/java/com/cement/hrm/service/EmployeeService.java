@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.cement.hrm.model.Employee;
 import com.cement.hrm.request.EmployeeRequest;
 import com.cement.hrm.request.LoginRequest;
+import com.cement.hrm.response.ReportingEmployee;
 
 public interface EmployeeService extends UserDetailsService {
 
@@ -26,5 +27,7 @@ public interface EmployeeService extends UserDetailsService {
 	String resetPassword(EmployeeRequest resetRequest);
 
 	String updateEmployeeStatus(EmployeeRequest statusRequest);
+
+	List<ReportingEmployee> bindEmployeeList();
 
 }

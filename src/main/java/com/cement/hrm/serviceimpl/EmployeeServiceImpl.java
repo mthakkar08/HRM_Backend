@@ -25,8 +25,12 @@ import com.cement.hrm.repository.EmployeeRepository;
 import com.cement.hrm.request.EmployeeRequest;
 import com.cement.hrm.request.LoginRequest;
 import com.cement.hrm.response.LoginResponse;
+import com.cement.hrm.response.ReportingEmployee;
 import com.cement.hrm.security.JwtTokenUtil;
 import com.cement.hrm.service.EmployeeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -129,6 +133,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return "ERROR";
 	}
 
+	@Override
+	public List<ReportingEmployee> bindEmployeeList() {
+
+		String listJson = employeeRepository.bindEmployeeList();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			List<ReportingEmployee> bindList = mapper.readValue(listJson, new TypeReference<List<ReportingEmployee>>() {
+			});
+			return bindList;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	private ResponseEntity<?> authenticate(String username, String password) {
 		try {
 			Authentication obj = authenticationManager
@@ -151,4 +170,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 	}
+
 }
