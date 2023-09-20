@@ -1,5 +1,7 @@
 package com.cement.hrm.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,20 +27,38 @@ public class Role {
 	@Column(name = "CreatedBy")
 	private int createdBy;
 
+	@Column(name = "CreatedDate")
+	private Date createdDate;
+
 	@Column(name = "ModifiedBy")
-	private int modifiedBy;
+	private Integer modifiedBy;
+
+	@Column(name = "ModifiedDate")
+	private Date modifiedDate;
 
 	public Role() {
 		super();
 	}
 
-	public Role(int roleId, String roleName, int status, int createdBy, int modifiedBy) {
+	public Role(int roleId, String roleName, int status, int createdBy, Integer modifiedBy) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
 		this.status = status;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Role(int roleId, String roleName, int status, int createdBy, Date createdDate, Integer modifiedBy,
+			Date modifiedDate) {
+		super();
+		this.roleId = roleId;
+		this.roleName = roleName;
+		this.status = status;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.modifiedBy = modifiedBy;
+		this.modifiedDate = modifiedDate;
 	}
 
 	public int getRoleId() {
@@ -73,12 +93,28 @@ public class Role {
 		this.createdBy = createdBy;
 	}
 
-	public int getModifiedBy() {
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Integer getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(int modifiedBy) {
+	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 }

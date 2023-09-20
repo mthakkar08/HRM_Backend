@@ -52,7 +52,7 @@ public class Leave {
 	private Date createdDate;
 
 	@Column(name = "ModifiedBy")
-	private int modifiedBy;
+	private Integer modifiedBy;
 
 	@Column(name = "ModifiedDate")
 	private Date modifiedDate;
@@ -64,7 +64,7 @@ public class Leave {
 
 	public Leave(int leaveId, String leaveSubject, String leaveReason, int leaveStatus, int employeeId, int approvedBy,
 			String approvedMessage, int status, Date startDate, Date endDate, int createdBy, Date createdDate,
-			int modifiedBy, Date modifiedDate) {
+			Integer modifiedBy, Date modifiedDate) {
 		super();
 		this.leaveId = leaveId;
 		this.leaveSubject = leaveSubject;
@@ -178,11 +178,11 @@ public class Leave {
 		this.createdDate = createdDate;
 	}
 
-	public int getModifiedBy() {
+	public Integer getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(int modifiedBy) {
+	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
