@@ -5,7 +5,7 @@ public class EmployeeRequest {
 	private int employeeId;
 	private String employeeName;
 	private String email;
-	private int designation;
+	private int designationId;
 	private int status;
 	private String password;
 
@@ -33,12 +33,12 @@ public class EmployeeRequest {
 		this.email = email;
 	}
 
-	public int getDesignation() {
-		return designation;
+	public int getDesignationId() {
+		return designationId;
 	}
 
-	public void setDesignation(int designation) {
-		this.designation = designation;
+	public void setDesignationId(int designationId) {
+		this.designationId = designationId;
 	}
 
 	public int getStatus() {

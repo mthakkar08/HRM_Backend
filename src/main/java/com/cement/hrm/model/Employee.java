@@ -7,9 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Employees")
@@ -18,60 +17,92 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EmployeeId")
+	// @JsonProperty("EmployeeId")
 	private int employeeId;
 
+	// @JsonProperty("EmployeeName")
 	@Column(name = "EmployeeName")
 	private String employeeName;
 
+	// @JsonProperty("Dob")
 	@Column(name = "Dob")
 	private String dob;
 
+	// @JsonProperty("Gender")
 	@Column(name = "Gender")
 	private int gender;
 
+	// @JsonProperty("PhoneNumber")
 	@Column(name = "PhoneNumber")
 	private long phoneNumber;
 
+	// @JsonProperty("Email")
 	@Column(name = "Email")
 	private String email;
 
+	// @JsonProperty("Password")
 	@Column(name = "Password")
 	private String password;
 
+	// @JsonProperty("Address")
 	@Column(name = "Address")
 	private String address;
 
-//	@OneToOne
-//	@JoinColumn(name = "DesignationId")
-//	private Designation designation;
-
-	@Column(name = "DesignationId")
-	private int designationId;
-
-	@Column(name = "DesignationName")
-	private String designationName;
-
+	// @JsonProperty("Experience")
 	@Column(name = "Experience")
 	private String experience;
 
+	// @JsonProperty("Status")
 	@Column(name = "Status")
 	private int status;
 
+	// @JsonProperty("HiringDate")
 	@Column(name = "HiringDate")
 	private Date hiringDate;
 
+	// @JsonProperty("JoiningDate")
 	@Column(name = "JoiningDate")
 	private Date joiningDate;
 
+	// @JsonProperty("TerminationDate")
 	@Column(name = "TerminationDate")
 	private Date terminationDate;
 
+	// @JsonProperty("CreatedBy")
 	@Column(name = "CreatedBy")
 	private int createdBy;
 
-	@ManyToOne
-	@JoinColumn(name = "RoleId")
-	private Role role;
+	// @JsonProperty("CreatedDate")
+	@Column(name = "CreatedDate")
+	private Date createdDate;
+
+	// @JsonProperty("ModifiedBy")
+	@Column(name = "ModifiedBy")
+	private Integer modifiedBy;
+
+	// @JsonProperty("ModifiedDate")
+	@Column(name = "ModifiedDate")
+	private Date modifiedDate;
+
+	// @JsonProperty("RoleId")
+	@Column(name = "RoleId")
+	private Integer roleId;
+
+	// @JsonProperty("DesignationId")
+	@Column(name = "DesignationId")
+	private Integer designationId;
+
+	@Transient
+	// @JsonProperty("Role")
+	private String roleName;
+
+	@Transient
+	// @JsonProperty("Designation")
+	private String designationName;
+
+	@Transient
+	// @JsonProperty("ReportingEmployees")
+	private String reportingEmployees;
 
 	public Employee() {
 		super();
@@ -84,8 +115,9 @@ public class Employee {
 	}
 
 	public Employee(int employeeId, String employeeName, String dob, int gender, long phoneNumber, String email,
-			String password, String address, int designationId, String designationName, String experience, int status,
-			Date hiringDate, Date joiningDate, Date terminationDate, int createdBy, Role role) {
+			String password, String address, String experience, int status, Date hiringDate, Date joiningDate,
+			Date terminationDate, int createdBy, Date createdDate, Integer modifiedBy, Date modifiedDate,
+			Integer roleId, Integer designationId, String roleName, String designationName, String reportingEmployees) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
@@ -95,15 +127,20 @@ public class Employee {
 		this.email = email;
 		this.password = password;
 		this.address = address;
-		this.designationId = designationId;
-		this.designationName = designationName;
 		this.experience = experience;
 		this.status = status;
 		this.hiringDate = hiringDate;
 		this.joiningDate = joiningDate;
 		this.terminationDate = terminationDate;
 		this.createdBy = createdBy;
-		this.role = role;
+		this.createdDate = createdDate;
+		this.modifiedBy = modifiedBy;
+		this.modifiedDate = modifiedDate;
+		this.roleId = roleId;
+		this.designationId = designationId;
+		this.roleName = roleName;
+		this.designationName = designationName;
+		this.reportingEmployees = reportingEmployees;
 	}
 
 	public int getEmployeeId() {
@@ -170,22 +207,6 @@ public class Employee {
 		this.address = address;
 	}
 
-	public int getDesignationId() {
-		return designationId;
-	}
-
-	public void setDesignationId(int designationId) {
-		this.designationId = designationId;
-	}
-
-	public String getDesignationName() {
-		return designationName;
-	}
-
-	public void setDesignationName(String designationName) {
-		this.designationName = designationName;
-	}
-
 	public String getExperience() {
 		return experience;
 	}
@@ -234,12 +255,68 @@ public class Employee {
 		this.createdBy = createdBy;
 	}
 
-	public Role getRole() {
-		return role;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Integer getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Integer modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public Integer getDesignationId() {
+		return designationId;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getDesignationName() {
+		return designationName;
+	}
+
+	public void setDesignationName(String designationName) {
+		this.designationName = designationName;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public void setDesignationId(Integer designationId) {
+		this.designationId = designationId;
+	}
+
+	public String getReportingEmployees() {
+		return reportingEmployees;
+	}
+
+	public void setReportingEmployees(String reportingEmployees) {
+		this.reportingEmployees = reportingEmployees;
 	}
 
 }
