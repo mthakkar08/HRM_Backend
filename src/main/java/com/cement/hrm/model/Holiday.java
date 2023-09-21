@@ -1,5 +1,7 @@
 package com.cement.hrm.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Holidays")
+@Table(name = "Holidays")
 public class Holiday {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,31 +21,32 @@ public class Holiday {
 	private String holidayName;
 
 	@Column(name = "HolidayDate")
-	private String holidayDate;
+	private Date holidayDate;
 
 	@Column(name = "Description")
 	private String description;
 
 	@Column(name = "Status")
-	private long status;
+	private int status;
 
 	@Column(name = "CreatedBy")
-	private String createdBy;
+	private int createdBy;
 
 	@Column(name = "CreatedDate")
-	private String createdDate;
+	private Date createdDate;
 
 	@Column(name = "ModifiedBy")
-	private String modifiedBy;
+	private int modifiedBy;
 
 	@Column(name = "ModifiedDate")
-	private String modifiedDate;
+	private Date modifiedDate;
 
 	public Holiday() {
 		super();
 	}
-	public Holiday(int holidayId, String holidayName, String holidayDate, String description, long status,
-			String createdBy, String createdDate, String modifiedBy, String modifiedDate) {
+
+	public Holiday(int holidayId, String holidayName, Date holidayDate, String description, int status, int createdBy,
+			Date createdDate, int modifiedBy, Date modifiedDate) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
@@ -72,11 +75,11 @@ public class Holiday {
 		this.holidayName = holidayName;
 	}
 
-	public String getHolidayDate() {
+	public Date getHolidayDate() {
 		return holidayDate;
 	}
 
-	public void setHolidayDate(String holidayDate) {
+	public void setHolidayDate(Date holidayDate) {
 		this.holidayDate = holidayDate;
 	}
 
@@ -88,43 +91,44 @@ public class Holiday {
 		this.description = description;
 	}
 
-	public long getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(long status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public String getCreatedBy() {
+	public int getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(int createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedBy() {
+	public int getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(String modifiedBy) {
+	public void setModifiedBy(int modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public String getModifiedDate() {
+	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
 }

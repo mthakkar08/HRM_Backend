@@ -8,6 +8,7 @@ public final class UrlConstants {
 	public static final String ROLERIGHTS = "/rolerights";
 	public static final String MENU = "/menu";
 	public static final String HOLIDAY = "/holiday";
+	public static final String ACCESSRIGHT = "/accessright";
 
 	public static final String LOG_IN = "/login";
 	public static final String GET_BY_ID = "/get";
@@ -18,5 +19,6 @@ public final class UrlConstants {
 	public static final String FORGET = "/forget";
 	public static final String RESET = "/reset";
 	public static final String STATUS = "/status";
+	public static final String SEARCH = "/search";
 
 }
