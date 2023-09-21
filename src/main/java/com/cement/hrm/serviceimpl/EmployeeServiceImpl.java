@@ -1,5 +1,6 @@
 package com.cement.hrm.serviceimpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,9 @@ import com.cement.hrm.security.JwtTokenUtil;
 import com.cement.hrm.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -44,10 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Employee empInDb = employeeRepository.findEmployeeByUsername(username);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String dbPassword = encoder.encode(empInDb.getPassword());
 		if (empInDb.getEmail().equals(username)) {
 			return new User(empInDb.getEmail(), dbPassword, new ArrayList<>());
@@ -69,40 +73,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployeeById(int employeeId) {
-		Optional<Employee> employee = employeeRepository.findById(employeeId);
-		if (employee.isPresent()) {
-			return employee.get();
+		Employee employee = null;
+		try {
+			String jsonObj = employeeRepository.getEmployeeById(employeeId);
+			if (jsonObj != null) {
+				ObjectMapper mapper = new ObjectMapper();
+				employee = mapper.readValue(jsonObj, Employee.class);
+				return employee;
+			}
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
 		}
-		return null;
+		return employee;
 	}
 
 	@Override
 	public List<Employee> fetchAllEmployeeBySearch(EmployeeRequest searchRequest) {
-		List<Employee> employeeList = employeeRepository.fetchAllEmployeeBySearch(searchRequest.getEmployeeName(),
-				searchRequest.getDesignation(), searchRequest.getStatus(), searchRequest.getEmail());
-		return employeeList;
-	}
 
-	@Override
-	public String addEditEmployee(Employee employee) {
-		return employeeRepository.addEditEmployee(employee.getEmployeeId(), employee.getEmployeeName(),
-				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
-				employee.getPassword(), employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
-				employee.getStatus(), employee.getHiringDate(), employee.getJoiningDate(),
-				employee.getTerminationDate());
-	}
-
-	@Override
-	public String deleteEmployeeById(int employeeId) {
 		try {
-			boolean isPresent = employeeRepository.existsById(employeeId);
-			if (isPresent) {
-				employeeRepository.deleteById(employeeId);
-				return "Deleted Successfully";
-			} else {
-				return "Employee Doesn't Exist.";
-			}
-		} catch (Exception e) {
+			String jsonObj = employeeRepository.fetchAllEmployeeBySearch(searchRequest.getEmployeeName(),
+					searchRequest.getDesignationId(), searchRequest.getStatus(), searchRequest.getEmail());
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode jsonList = mapper.readTree(jsonObj);
+			ObjectReader reader = mapper.readerFor(new TypeReference<List<Employee>>() {
+			});
+			List<Employee> empList = reader.readValue(jsonList);
+			return empList;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -110,9 +109,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	public String addEditEmployee(Employee employee) {
+		String encryptedPassword = encoder.encode(employee.getPassword());
+		return employeeRepository.addEditEmployee(employee.getEmployeeId(), employee.getEmployeeName(),
+				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
+				encryptedPassword, employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
+				employee.getStatus(), employee.getHiringDate(), employee.getJoiningDate(),
+				employee.getTerminationDate(), employee.getReportingEmployees());
+	}
+
+	@Override
+	public String deleteEmployeeById(int employeeId) {
+		return employeeRepository.deleteEmployeeById(employeeId);
+
+	}
+
+	@Override
 	public String forgetPassword(String email) {
-		String st = employeeRepository.isEmpoloyeeExist(email);
-		return st;
+		return employeeRepository.isEmpoloyeeExist(email);
 
 	}
 
@@ -154,8 +168,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 					.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			if (null != obj && obj.isAuthenticated()) {
 				final UserDetails userDetails = loadUserByUsername(username);
+				Employee empInDb = employeeRepository.findEmployeeByUsername(username);
 				final String token = jwtTokenUtil.generateToken(userDetails);
-				return ResponseEntity.ok(new LoginResponse(token, userDetails));
+				return ResponseEntity.ok(
+						new LoginResponse(token, empInDb.getEmail(), empInDb.getPassword(), empInDb.getEmployeeName()));
 			} else {
 				return new ResponseEntity<>("", HttpStatus.UNAUTHORIZED);
 			}

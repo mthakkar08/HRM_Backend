@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "RoleRights")
@@ -23,8 +24,9 @@ public class RoleRights {
 	@Column(name = "RoleRightId")
 	private int roleRightId;
 
-	@ManyToOne
-	@JoinColumn(name = "RoleId")
+//	@ManyToOne
+//	@JoinColumn(name = "RoleId")
+	@Transient
 	private Role role;
 
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
