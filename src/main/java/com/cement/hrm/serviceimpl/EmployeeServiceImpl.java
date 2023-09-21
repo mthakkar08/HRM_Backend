@@ -47,10 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Employee empInDb = employeeRepository.findEmployeeByUsername(username);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String dbPassword = encoder.encode(empInDb.getPassword());
 		if (empInDb.getEmail().equals(username)) {
 			return new User(empInDb.getEmail(), dbPassword, new ArrayList<>());
@@ -109,9 +110,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public String addEditEmployee(Employee employee) {
+		String encryptedPassword = encoder.encode(employee.getPassword());
 		return employeeRepository.addEditEmployee(employee.getEmployeeId(), employee.getEmployeeName(),
 				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
-				employee.getPassword(), employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
+				encryptedPassword, employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
 				employee.getStatus(), employee.getHiringDate(), employee.getJoiningDate(),
 				employee.getTerminationDate(), employee.getReportingEmployees());
 	}
