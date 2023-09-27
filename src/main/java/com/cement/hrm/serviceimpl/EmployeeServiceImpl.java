@@ -2,10 +2,13 @@ package com.cement.hrm.serviceimpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountStatusException;
@@ -21,14 +24,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cement.hrm.constant.Config;
 import com.cement.hrm.model.Employee;
+import com.cement.hrm.model.Mail;
 import com.cement.hrm.repository.EmployeeRepository;
+import com.cement.hrm.repository.MailRepository;
 import com.cement.hrm.request.EmployeeRequest;
 import com.cement.hrm.request.LoginRequest;
 import com.cement.hrm.response.LoginResponse;
 import com.cement.hrm.response.ReportingEmployee;
 import com.cement.hrm.security.JwtTokenUtil;
 import com.cement.hrm.service.EmployeeService;
+import com.cement.hrm.utils.EmailUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -38,8 +45,16 @@ import com.fasterxml.jackson.databind.ObjectReader;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+	@Value("${spring.mail.username}")
+	private String fromEmail;
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private MailRepository emailRepository;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -47,7 +62,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	@Autowired
+	private EmailUtils emailUtils;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -110,7 +126,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public String addEditEmployee(Employee employee) {
-		String encryptedPassword = encoder.encode(employee.getPassword());
+		String encryptedPassword = employee.getPassword() != null ? encoder.encode(employee.getPassword()) : "";
 		return employeeRepository.addEditEmployee(employee.getEmployeeId(), employee.getEmployeeName(),
 				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
 				encryptedPassword, employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
@@ -126,13 +142,46 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public String forgetPassword(String email) {
-		return employeeRepository.isEmpoloyeeExist(email);
+		Employee user = employeeRepository.findEmployeeByUsername(email);
+		if (user != null) {
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("token", Config.GENERATE_TOKEN);
+			model.put("user", user);
+			model.put("signature", Config.SIGNATURE);
+			model.put("resetUrl", Config.RESET_PASSWORD_URL + Config.GENERATE_TOKEN);
+
+			Mail emailObj = new Mail();
+			emailObj.setToken(Config.GENERATE_TOKEN);
+			emailObj.setEmployeeId(user.getEmployeeId());
+			emailObj.setEmployee(user);
+			emailObj.setExpiryDate(30);
+			emailObj.setFrom(fromEmail);
+			emailObj.setTo(user.getEmail());
+			emailObj.setSubject("Reset Password");
+			emailObj.setSignature(Config.SIGNATURE);
+			emailObj.setUrl(Config.RESET_PASSWORD_URL);
+			emailObj.setModel(model);
+			String status = emailUtils.sendMail(emailObj);
+			if (status.equalsIgnoreCase("SUCCESS")) {
+				emailRepository.saveEmail(emailObj.getTo(), emailObj.getFrom(), emailObj.getSubject(),
+						emailObj.getToken(), emailObj.getSignature(), emailObj.getEmployeeId(), emailObj.getUrl(),
+						emailObj.getExpiryDate());
+				return status;
+			}
+
+		}
+		return "ERROR";
 
 	}
 
 	@Override
 	public String resetPassword(EmployeeRequest resetRequest) {
-		return employeeRepository.resetEmployeePassword(resetRequest.getEmail(), resetRequest.getPassword());
+		Mail mail = emailRepository.findEmailByToken(resetRequest.getResetToken());
+		boolean status = emailUtils.isExpired(mail.getExpiryDate());
+		if (!status)
+			return employeeRepository.resetEmployeePassword(resetRequest.getEmail(), resetRequest.getPassword());
+		return "Link Expired!";
 
 	}
 
