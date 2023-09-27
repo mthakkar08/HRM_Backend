@@ -8,6 +8,7 @@ public class EmployeeRequest {
 	private int designationId;
 	private int status;
 	private String password;
+	private String resetToken;
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -55,6 +56,14 @@ public class EmployeeRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
 	}
 
 }

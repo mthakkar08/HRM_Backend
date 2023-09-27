@@ -10,7 +10,7 @@ import com.cement.hrm.model.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-	//@Procedure(value = "fecthAllEmployeeBySearch")
+	// @Procedure(value = "fecthAllEmployeeBySearch")
 	@Query(value = "EXEC fecthAllEmployeeBySearch :EmployeeName, :DesignationId, :Status, :Email", nativeQuery = true)
 	public String fetchAllEmployeeBySearch(@Param("EmployeeName") String employeeName,
 			@Param("DesignationId") int designationId, @Param("Status") int status, @Param("Email") String email);
