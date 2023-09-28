@@ -16,4 +16,6 @@ public interface LeaveService<T> {
 
 	Object deleteLeaveById(int leaveId);
 
+	Object changeLeaveStatus(LeaveRequest statusRequest);
+
 }

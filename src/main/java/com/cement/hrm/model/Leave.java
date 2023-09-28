@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Leaves")
@@ -16,7 +17,7 @@ public class Leave {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "LeaveId")
-	private int leaveId;
+	private Integer leaveId;
 
 	@Column(name = "LeaveSubject")
 	private String leaveSubject;
@@ -25,19 +26,19 @@ public class Leave {
 	private String leaveReason;
 
 	@Column(name = "LeaveStatus")
-	private int leaveStatus;
+	private Integer leaveStatus;
 
 	@Column(name = "EmployeeId")
-	private int employeeId;
+	private Integer employeeId;
 
 	@Column(name = "ApprovedBy")
-	private int approvedBy;
+	private Integer approvedBy;
 
 	@Column(name = "ApprovedMessage")
 	private String approvedMessage;
 
 	@Column(name = "Status")
-	private int status;
+	private Integer status;
 
 	@Column(name = "StartDate")
 	private Date startDate;
@@ -57,14 +58,19 @@ public class Leave {
 	@Column(name = "ModifiedDate")
 	private Date modifiedDate;
 
+	@Transient
+	private String employeeName;
+
+	@Transient
+	private String reportingEmployee;
+
 	public Leave() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Leave(int leaveId, String leaveSubject, String leaveReason, int leaveStatus, int employeeId, int approvedBy,
-			String approvedMessage, int status, Date startDate, Date endDate, int createdBy, Date createdDate,
-			Integer modifiedBy, Date modifiedDate) {
+	public Leave(Integer leaveId, String leaveSubject, String leaveReason, Integer leaveStatus, Integer employeeId,
+			Integer approvedBy, String approvedMessage, Integer status, Date startDate, Date endDate, int createdBy,
+			Date createdDate, Integer modifiedBy, Date modifiedDate, String employeeName, String reportingEmployee) {
 		super();
 		this.leaveId = leaveId;
 		this.leaveSubject = leaveSubject;
@@ -80,13 +86,15 @@ public class Leave {
 		this.createdDate = createdDate;
 		this.modifiedBy = modifiedBy;
 		this.modifiedDate = modifiedDate;
+		this.employeeName = employeeName;
+		this.reportingEmployee = reportingEmployee;
 	}
 
-	public int getLeaveId() {
+	public Integer getLeaveId() {
 		return leaveId;
 	}
 
-	public void setLeaveId(int leaveId) {
+	public void setLeaveId(Integer leaveId) {
 		this.leaveId = leaveId;
 	}
 
@@ -106,27 +114,27 @@ public class Leave {
 		this.leaveReason = leaveReason;
 	}
 
-	public int getLeaveStatus() {
+	public Integer getLeaveStatus() {
 		return leaveStatus;
 	}
 
-	public void setLeaveStatus(int leaveStatus) {
+	public void setLeaveStatus(Integer leaveStatus) {
 		this.leaveStatus = leaveStatus;
 	}
 
-	public int getEmployeeId() {
+	public Integer getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
 	}
 
-	public int getApprovedBy() {
+	public Integer getApprovedBy() {
 		return approvedBy;
 	}
 
-	public void setApprovedBy(int approvedBy) {
+	public void setApprovedBy(Integer approvedBy) {
 		this.approvedBy = approvedBy;
 	}
 
@@ -138,11 +146,11 @@ public class Leave {
 		this.approvedMessage = approvedMessage;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -158,7 +166,7 @@ public class Leave {
 		return endDate;
 	}
 
-	public void setEndDAte(Date endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -192,6 +200,22 @@ public class Leave {
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getReportingEmployee() {
+		return reportingEmployee;
+	}
+
+	public void setReportingEmployee(String reportingEmployee) {
+		this.reportingEmployee = reportingEmployee;
 	}
 
 }

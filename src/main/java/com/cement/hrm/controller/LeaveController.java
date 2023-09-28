@@ -17,8 +17,8 @@ import com.cement.hrm.model.Leave;
 import com.cement.hrm.request.LeaveRequest;
 import com.cement.hrm.service.LeaveService;
 
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping(UrlConstants.LEAVE)
 public class LeaveController {
 
@@ -43,5 +43,10 @@ public class LeaveController {
 	@DeleteMapping(UrlConstants.DELETE)
 	private ResponseEntity<?> deleteLeaveById(@RequestParam("LeaveId") int leaveId) {
 		return new ResponseEntity<>(leaveService.deleteLeaveById(leaveId), HttpStatus.OK);
+	}
+	
+	@PostMapping(UrlConstants.STATUS)
+	private ResponseEntity<?> changeLeaveStatus(@RequestBody LeaveRequest statusRequest) {
+		return new ResponseEntity<>(leaveService.changeLeaveStatus(statusRequest), HttpStatus.OK);
 	}
 }

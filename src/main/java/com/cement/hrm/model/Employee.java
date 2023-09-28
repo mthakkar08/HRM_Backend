@@ -108,7 +108,8 @@ public class Employee {
 		super();
 	}
 
-	public Employee(String employeeName, String email, String password) {
+	public Employee(int employeeId, String employeeName, String email, String password) {
+		this.employeeId = employeeId;
 		this.employeeName = employeeName;
 		this.email = email;
 		this.password = password;

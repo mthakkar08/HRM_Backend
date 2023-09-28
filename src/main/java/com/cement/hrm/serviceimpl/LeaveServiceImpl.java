@@ -9,6 +9,9 @@ import com.cement.hrm.model.Leave;
 import com.cement.hrm.repository.LeaveRepository;
 import com.cement.hrm.request.LeaveRequest;
 import com.cement.hrm.service.LeaveService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class LeaveServiceImpl<T> implements LeaveService<T> {
@@ -23,9 +26,21 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 
 	@Override
 	public Object getAllLeaves(LeaveRequest leaveRequest) {
-		List<Leave> list = leaveRepository.fetchAllLeavesBySearch(leaveRequest.getLeaveSubject(),
-				leaveRequest.getLeaveStatus(), leaveRequest.getStatus(), leaveRequest.getLeaveDate());
-		return list;
+		List<Leave> leaveList = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonObj = leaveRepository.fetchAllLeavesBySearch(leaveRequest.getLeaveSubject(),
+					leaveRequest.getLeaveStatus(), leaveRequest.getLeaveDate(), leaveRequest.getEmployeeId());
+			if (jsonObj != null) {
+				leaveList = mapper.readValue(jsonObj, new TypeReference<List<Leave>>() {
+				});
+				return leaveList;
+			}
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return leaveList;
 	}
 
 	@Override
@@ -39,6 +54,12 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 	@Override
 	public Object deleteLeaveById(int leaveId) {
 		return leaveRepository.deleteLeaveById(leaveId);
+	}
+
+	@Override
+	public Object changeLeaveStatus(LeaveRequest statusRequest) {
+		return leaveRepository.changeLeaveStatus(statusRequest.getLeaveId(), statusRequest.getApprovedBy(),
+				statusRequest.getApprovedMessage(), statusRequest.getLeaveStatus());
 	}
 
 }

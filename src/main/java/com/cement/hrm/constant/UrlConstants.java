@@ -10,6 +10,7 @@ public final class UrlConstants {
 	public static final String HOLIDAY = "/holiday";
 	public static final String LEAVE="/leave";
 	public static final String MAIL="/mail";
+	public static final String LEAVE_POLICY="/leavepolicy";
 
 	public static final String LOG_IN = "/login";
 	public static final String GET_BY_ID = "/get";
