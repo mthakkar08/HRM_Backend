@@ -1,7 +1,6 @@
 package com.cement.hrm.serviceimpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,10 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public ResponseEntity<Role> getRoleById(int roleId) {
-		Optional<Role> roleInDb = roleRepository.findById(roleId);
-		if (roleInDb.isPresent()) {
-			return new ResponseEntity<>(roleInDb.get(), HttpStatus.FOUND);
+		Role role = roleRepository.getById(roleId);
+		if(role!=null)
+		 {
+			return new ResponseEntity<>(role, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -30,32 +30,30 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Role>> fecthAllRoleBySearch(String roleName, int status) {
-		List<Role> roleList = roleRepository.fecthAllRoleBySearch(roleName, status);
-		if (!roleList.isEmpty()) {
-			return new ResponseEntity<>(roleList, HttpStatus.FOUND);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
+	public ResponseEntity<List<Role>> fecthAllRoles(){
+		List<Role> roleList = roleRepository.fecthAllRoles();
+		return new ResponseEntity<>(roleList,HttpStatus.OK);
 
 	}
 
 	@Override
-	public Role addEditRole(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+	public String addEditRole(Role role) {
+		return roleRepository.addEditRole(role.getRoleId(), role.getRoleName(), role.getStatus(), role.getCreatedBy(), role.getModifiedBy());
 	}
 
 	@Override
-	public ResponseEntity<?> deleteRoleById(int roleId) {
-		boolean isPresent = roleRepository.existsById(roleId);
-		if (isPresent) {
-			roleRepository.deleteById(roleId);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-
+	public String deleteRoleById(int roleId) {
+		
+		return roleRepository.deleteById(roleId);
 	}
+
+	@Override
+	public ResponseEntity<List<Role>> fetchAllRolesBySearch(String roleName) {
+	
+		List<Role> AllRoles = roleRepository.fetchAllRolesBySearch(roleName);
+		return new ResponseEntity<>(AllRoles,HttpStatus.OK);
+	}
+
+
 
 }
