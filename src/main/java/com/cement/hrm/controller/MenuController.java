@@ -23,8 +23,8 @@ public class MenuController {
 
 	@GetMapping(UrlConstants.LIST)
 	@Transactional(readOnly = true)
-	public ResponseEntity<List<Menu>> fecthAllMenus(@Param("MenuId") int menuId, @Param("Status") int status) {
-		return new ResponseEntity<>(menuService.fecthAllMenus(menuId,  status),
+	public ResponseEntity<List<Menu>> fecthAllMenus(@Param("MenuId") int menuId) {
+		return new ResponseEntity<>(menuService.fecthAllMenus(menuId),
 				HttpStatus.OK);
 	}
 }

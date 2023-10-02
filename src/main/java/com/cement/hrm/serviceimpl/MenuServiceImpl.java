@@ -16,9 +16,9 @@ public class MenuServiceImpl implements MenuService {
 	private MenuRepository menuRepository;
 
 	@Override
-	public List<Menu> fecthAllMenus(int menuId, int status) {
+	public List<Menu> fecthAllMenus(int menuId) {
 
-		return menuRepository.fecthAllMenus(menuId, status);
+		return menuRepository.fecthAllMenus(menuId);
 
 	}
 

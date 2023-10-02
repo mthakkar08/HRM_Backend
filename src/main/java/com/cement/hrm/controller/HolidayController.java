@@ -1,9 +1,6 @@
 package com.cement.hrm.controller;
 
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +29,27 @@ public class HolidayController {
 	@Autowired
 	private HolidayService holidayService;
 
+	@GetMapping(UrlConstants.GET_BY_ID)
+	public Holiday getHolidayById(@Param("employeeId") int holidayId) {
+		return holidayService.getHolidayById(holidayId);
+	}
+
 	@PostMapping(UrlConstants.ADD_EDIT)
-	public ResponseEntity<Holiday> addEditHoliday(@RequestBody Holiday holiday) {
+	public ResponseEntity<String> addEditHoliday(@RequestBody Holiday holiday) {
 		return new ResponseEntity<>(holidayService.addEditHoliday(holiday), HttpStatus.OK);
 	}
 
-	@GetMapping(UrlConstants.LIST)
+	@PostMapping(UrlConstants.LIST)
 	@Transactional(readOnly = true)
-	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody HolidayRequest searchRequest) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date from = formatter.parse(searchRequest.getFromDate());
-		Date to = formatter.parse(searchRequest.getToDate());
-		return new ResponseEntity<>(holidayService.fecthAllHolidaysBySearch(from, to), HttpStatus.OK);
+	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody HolidayRequest searchRequest)
+			throws ParseException {
+		return new ResponseEntity<>(
+				holidayService.fecthAllHolidaysBySearch(searchRequest),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping(UrlConstants.DELETE)
-	public void deleteHolidayById(@Param("HolidayId") int holidayId) {
-		holidayService.deleteHolidayById(holidayId);
+	public String deleteHolidayById(@Param("HolidayId") int holidayId) {
+		return holidayService.deleteHolidayById(holidayId);
 	}
 }

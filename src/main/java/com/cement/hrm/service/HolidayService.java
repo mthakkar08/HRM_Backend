@@ -1,17 +1,19 @@
 package com.cement.hrm.service;
 
 
-import java.util.Date;
 import java.util.List;
 
 import com.cement.hrm.model.Holiday;
+import com.cement.hrm.request.HolidayRequest;
 
 public interface HolidayService {
 
-	Holiday addEditHoliday(Holiday holidays);
+	String addEditHoliday(Holiday holidays);
 
-	List<Holiday> fecthAllHolidaysBySearch(Date fromDate, Date toDate);
+	List<Holiday> fecthAllHolidaysBySearch(HolidayRequest searchRequest);
+	
+	Holiday getHolidayById(int holidayId);
 
-	void deleteHolidayById(int holidaysId);
+	String deleteHolidayById(int holidayId);
 
 }

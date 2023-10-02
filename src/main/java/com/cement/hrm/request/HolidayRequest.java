@@ -1,27 +1,42 @@
 package com.cement.hrm.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 
 public class HolidayRequest {
 
-	@JsonFormat(pattern = "yyyy-mm-dd")
-	private String fromDate;
-	@JsonFormat(pattern = "yyyy-mm-dd")
-	private String toDate;
+	private Date fromDate;
+	private Date toDate;
 
-	public String getFromDate() {
+	private int status;
+
+	public HolidayRequest(Date fromDate, Date toDate, int status) {
+		super();
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+		this.status = status;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 
-	public String getToDate() {
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 

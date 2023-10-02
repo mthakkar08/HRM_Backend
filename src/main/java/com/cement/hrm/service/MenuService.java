@@ -6,6 +6,6 @@ import com.cement.hrm.model.Menu;
 
 public interface MenuService {
 
-	List<Menu> fecthAllMenus(int menuId, int status);
+	List<Menu> fecthAllMenus(int menuId);
 
 }

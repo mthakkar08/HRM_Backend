@@ -9,11 +9,13 @@ import com.cement.hrm.model.Role;
 public interface RoleService {
 
 	ResponseEntity<Role> getRoleById(int roleId);
+	
+	String addEditRole(Role role);
 
-	ResponseEntity<List<Role>> fecthAllRoleBySearch(String roleName, int status);
-
-	Role addEditRole(Role role);
-
-	ResponseEntity<?> deleteRoleById(int roleId);
+	String deleteRoleById(int roleId); 
+	
+	ResponseEntity<List<Role>> fecthAllRoles();
+	
+	ResponseEntity<List<Role>> fetchAllRolesBySearch(String roleName);
 
 }

@@ -1,5 +1,7 @@
 package com.cement.hrm.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,8 +29,32 @@ public class Menu {
 	@Column(name = "CreatedBy")
 	private int createdBy;
 
+	@Column(name = "CreatedDate")
+	private Date createdDate;
+
 	@Column(name = "ModifiedBy")
 	private int modifiedBy;
+
+	@Column(name = "ModifiedDate")
+	private Date modifiedDate;
+
+	public Menu() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Menu(int menuId, int parentMenuId, String menuName, int status, int createdBy,
+			int modifiedBy) {
+		super();
+		this.menuId = menuId;
+		this.parentMenuId = parentMenuId;
+		this.menuName = menuName;
+		this.status = status;
+		this.createdBy = createdBy;
+		//this.createdDate = createdDate;
+		this.modifiedBy = modifiedBy;
+		//this.modifiedDate = modifiedDate;
+	}
 
 	public int getMenuId() {
 		return menuId;
@@ -70,6 +96,14 @@ public class Menu {
 		this.createdBy = createdBy;
 	}
 
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	public int getModifiedBy() {
 		return modifiedBy;
 	}
@@ -78,14 +112,12 @@ public class Menu {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Menu(int menuId, int parentMenuId, String menuName, int status, int createdBy, int modifiedBy) {
-		super();
-		this.menuId = menuId;
-		this.parentMenuId = parentMenuId;
-		this.menuName = menuName;
-		this.status = status;
-		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 }

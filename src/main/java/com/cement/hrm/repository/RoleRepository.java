@@ -12,7 +12,21 @@ import com.cement.hrm.model.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	@Query("SELECT "+"new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy)"+" FROM Role as r WHERE RoleName = :roleName or Status= :status")
-	List<Role> fecthAllRoleBySearch(@Param("roleName") String roleName, @Param("status") int status);
+//	@Query("SELECT "+"new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy)"+" FROM Role as r WHERE RoleName = :roleName or Status= :status")
+//	List<Role> fecthAllRoleBySearch(@Param("RoleName") String roleName, @Param("Status") int status);
 
+	@Query(value ="EXEC deleteRoleById :RoleId", nativeQuery = true)
+	String deleteById(@Param("RoleId")int roleId);
+
+	@Query(value = "EXEC addEditRole :RoleId, :RoleName, :Status, :CreatedBy, :ModifiedBy",nativeQuery = true)
+	String addEditRole(@Param("RoleId")int roleId,@Param("RoleName")String roleName,@Param("Status") int status,@Param("CreatedBy")int createdBy,@Param("ModifiedBy") int modifiedBy);
+	
+	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM Role as r WHERE Status <> 2 and RoleName like :RoleName")
+	List<Role> fetchAllRolesBySearch(@Param("RoleName")String roleName);
+	
+	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM Role as r WHERE Status <> 2")
+	List<Role> fecthAllRoles();
+	
+	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM com.cement.hrm.model.Role as r WHERE RoleId = :RoleId and Status=1")
+	Role getById(@Param("RoleId") int roleId);
 }
