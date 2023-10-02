@@ -90,10 +90,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmployeeById(int employeeId) {
 		Employee employee = null;
+		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonObj = employeeRepository.getEmployeeById(employeeId);
 			if (jsonObj != null) {
-				ObjectMapper mapper = new ObjectMapper();
 				employee = mapper.readValue(jsonObj, Employee.class);
 				return employee;
 			}
@@ -105,22 +105,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> fetchAllEmployeeBySearch(EmployeeRequest searchRequest) {
-
+		List<Employee> empList = null;
+		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonObj = employeeRepository.fetchAllEmployeeBySearch(searchRequest.getEmployeeName(),
 					searchRequest.getDesignationId(), searchRequest.getStatus(), searchRequest.getEmail());
-			ObjectMapper mapper = new ObjectMapper();
-			JsonNode jsonList = mapper.readTree(jsonObj);
-			ObjectReader reader = mapper.readerFor(new TypeReference<List<Employee>>() {
-			});
-			List<Employee> empList = reader.readValue(jsonList);
-			return empList;
+			if (jsonObj != null) {
+				JsonNode jsonList = mapper.readTree(jsonObj);
+				ObjectReader reader = mapper.readerFor(new TypeReference<List<Employee>>() {
+				});
+				empList = reader.readValue(jsonList);
+				return empList;
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return empList;
 
 	}
 
@@ -198,17 +200,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<ReportingEmployee> bindEmployeeList() {
-
-		String listJson = employeeRepository.bindEmployeeList();
+		List<ReportingEmployee> reportingEmployees = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<ReportingEmployee> bindList = mapper.readValue(listJson, new TypeReference<List<ReportingEmployee>>() {
-			});
-			return bindList;
+			String jsonObj = employeeRepository.bindEmployeeList();
+			if (jsonObj != null) {
+				reportingEmployees = mapper.readValue(jsonObj, new TypeReference<List<ReportingEmployee>>() {
+				});
+				return reportingEmployees;
+			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return reportingEmployees;
 	}
 
 	private ResponseEntity<?> authenticate(String username, String password) {
@@ -219,8 +223,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				final UserDetails userDetails = loadUserByUsername(username);
 				Employee empInDb = employeeRepository.findEmployeeByUsername(username);
 				final String token = jwtTokenUtil.generateToken(userDetails);
-				return ResponseEntity.ok(
-						new LoginResponse(token, empInDb.getEmail(), empInDb.getPassword(), empInDb.getEmployeeName()));
+				return ResponseEntity.ok(new LoginResponse(token, empInDb.getEmail(), empInDb.getPassword(),
+						empInDb.getEmployeeName(), empInDb.getEmployeeId()));
 			} else {
 				return new ResponseEntity<>("", HttpStatus.UNAUTHORIZED);
 			}

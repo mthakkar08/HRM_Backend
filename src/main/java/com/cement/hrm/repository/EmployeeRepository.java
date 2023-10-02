@@ -18,7 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query(value = "EXEC validateUsernameAndPassword :Email, :Password", nativeQuery = true)
 	public String validateUsernameAndPassword(@Param("Email") String email, @Param("Password") String password);
 
-	@Query("SELECT new com.cement.hrm.model.Employee(e.employeeName, e.email, e.password) FROM Employee as e WHERE Email IS NOT NULL AND Email=:email")
+	@Query("SELECT new com.cement.hrm.model.Employee(e.employeeId, e.employeeName, e.email, e.password) FROM Employee as e WHERE Email IS NOT NULL AND Email=:email")
 	public Employee findEmployeeByUsername(String email);
 
 	@Query(value = "EXEC addEditEmployee :EmployeeId, :EmployeeName, :Dob, :Gender, :PhoneNumber, :Email, :Password, :Address, :Designation, :Experience, :Status, :HiringDate, :JoiningDate, :TerminationDate, :ReportingEmployees", nativeQuery = true)

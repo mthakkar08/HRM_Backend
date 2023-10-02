@@ -6,13 +6,15 @@ public class LoginResponse {
 	private final String email;
 	private final String password;
 	private final String employeeName;
+	private final Integer employeeId;
 
-	public LoginResponse(String jwttoken, String email, String password, String employeeName) {
+	public LoginResponse(String jwttoken, String email, String password, String employeeName, Integer employeeId) {
 		super();
 		this.jwttoken = jwttoken;
 		this.email = email;
 		this.password = password;
 		this.employeeName = employeeName;
+		this.employeeId = employeeId;
 	}
 
 	public String getJwttoken() {
@@ -29,6 +31,10 @@ public class LoginResponse {
 
 	public String getEmployeeName() {
 		return employeeName;
+	}
+
+	public Integer getEmployeeId() {
+		return employeeId;
 	}
 
 }
