@@ -18,4 +18,6 @@ public interface LeaveService<T> {
 
 	Object changeLeaveStatus(LeaveRequest statusRequest);
 
+	Object getLeavesByReportingEmployee(LeaveRequest leaveRequest);
+
 }
