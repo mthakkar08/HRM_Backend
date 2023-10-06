@@ -49,4 +49,9 @@ public class LeaveController {
 	private ResponseEntity<?> changeLeaveStatus(@RequestBody LeaveRequest statusRequest) {
 		return new ResponseEntity<>(leaveService.changeLeaveStatus(statusRequest), HttpStatus.OK);
 	}
+	
+	@PostMapping("sortby")
+	private ResponseEntity<?> getLeavesByReportingEmployee(@RequestBody LeaveRequest leaveRequest) {
+		return new ResponseEntity<>(leaveService.getLeavesByReportingEmployee(leaveRequest), HttpStatus.OK);
+	}
 }

@@ -133,7 +133,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employee.getDob(), employee.getGender(), employee.getPhoneNumber(), employee.getEmail(),
 				encryptedPassword, employee.getAddress(), employee.getDesignationId(), employee.getExperience(),
 				employee.getStatus(), employee.getHiringDate(), employee.getJoiningDate(),
-				employee.getTerminationDate(), employee.getReportingEmployees());
+				employee.getTerminationDate(), employee.getReportingEmployeeIds());
 	}
 
 	@Override
@@ -147,14 +147,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee user = employeeRepository.findEmployeeByUsername(email);
 		if (user != null) {
 
+			Map<String, Object> claims = new HashMap<>();
+			final String token = jwtTokenUtil.doGenerateToken(claims, user.getEmail());
 			Map<String, Object> model = new HashMap<>();
-			model.put("token", Config.GENERATE_TOKEN);
+			model.put("token", token);
 			model.put("user", user);
 			model.put("signature", Config.SIGNATURE);
-			model.put("resetUrl", Config.RESET_PASSWORD_URL + Config.GENERATE_TOKEN);
+			model.put("resetUrl", Config.RESET_PASSWORD_URL + token);
 
 			Mail emailObj = new Mail();
-			emailObj.setToken(Config.GENERATE_TOKEN);
+			emailObj.setToken(token);
 			emailObj.setEmployeeId(user.getEmployeeId());
 			emailObj.setEmployee(user);
 			emailObj.setExpiryDate(30);
@@ -180,9 +182,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public String resetPassword(EmployeeRequest resetRequest) {
 		Mail mail = emailRepository.findEmailByToken(resetRequest.getResetToken());
-		boolean status = emailUtils.isExpired(mail.getExpiryDate());
-		if (!status)
-			return employeeRepository.resetEmployeePassword(resetRequest.getEmail(), resetRequest.getPassword());
+		if (mail != null) {
+			boolean status = emailUtils.isExpired(mail.getExpiryDate());
+			if (!status)
+				return employeeRepository.resetEmployeePassword(mail.getTo(), resetRequest.getPassword());
+		}
 		return "Link Expired!";
 
 	}

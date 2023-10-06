@@ -21,7 +21,20 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 
 	@Override
 	public Object getLeaveById(int leaveId) {
-		return leaveRepository.getLeaveById(leaveId);
+		Leave leaveObj = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonObj = leaveRepository.getLeaveById(leaveId);
+			if (jsonObj != null) {
+				leaveObj = mapper.readValue(jsonObj, new TypeReference<Leave>() {
+				});
+				return leaveObj;
+			}
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return leaveObj;
 	}
 
 	@Override
@@ -60,6 +73,25 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 	public Object changeLeaveStatus(LeaveRequest statusRequest) {
 		return leaveRepository.changeLeaveStatus(statusRequest.getLeaveId(), statusRequest.getApprovedBy(),
 				statusRequest.getApprovedMessage(), statusRequest.getLeaveStatus());
+	}
+
+	@Override
+	public Object getLeavesByReportingEmployee(LeaveRequest leaveRequest) {
+		List<Leave> leaveList = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonObj = leaveRepository.getLeavesByReportingEmployee(leaveRequest.getLeaveSubject(),
+					leaveRequest.getLeaveStatus(), leaveRequest.getLeaveDate(), leaveRequest.getEmployeeId());
+			if (jsonObj != null) {
+				leaveList = mapper.readValue(jsonObj, new TypeReference<List<Leave>>() {
+				});
+				return leaveList;
+			}
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return leaveList;
 	}
 
 }

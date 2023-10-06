@@ -27,9 +27,7 @@
 				<p th:text="${'Dear ' + user.employeeName}"></p>
 				<p>You've requested a password reset.
 				<form th:action="${resetUrl}">
-					<div>
-						<input type="submit" value="Reset" />
-					</div>
+					<input type="submit" value="Reset" />
 				</form>
 				</p>
 				<p>Thanks</p>
@@ -38,6 +36,7 @@
 		<tr>
 			<td style="padding: 10px 10px 10px 10px; background-color:#C0C0C0">
 				<p th:text="${signature}"></p>
+				<p th:text="${resetUrl}"></p>
 			</td>
 		</tr>
 	</table>

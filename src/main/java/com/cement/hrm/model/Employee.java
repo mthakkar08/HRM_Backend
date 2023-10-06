@@ -101,8 +101,10 @@ public class Employee {
 	private String designationName;
 
 	@Transient
-	// @JsonProperty("ReportingEmployees")
-	private String reportingEmployees;
+	private String reportingEmployeeIds;
+	
+	@Transient
+	private String reportingEmployeeNames;
 
 	public Employee() {
 		super();
@@ -115,10 +117,12 @@ public class Employee {
 		this.password = password;
 	}
 
+	
 	public Employee(int employeeId, String employeeName, String dob, int gender, long phoneNumber, String email,
 			String password, String address, String experience, int status, Date hiringDate, Date joiningDate,
 			Date terminationDate, int createdBy, Date createdDate, Integer modifiedBy, Date modifiedDate,
-			Integer roleId, Integer designationId, String roleName, String designationName, String reportingEmployees) {
+			Integer roleId, Integer designationId, String roleName, String designationName, String reportingEmployeeIds,
+			String reportingEmployeeNames) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
@@ -141,7 +145,8 @@ public class Employee {
 		this.designationId = designationId;
 		this.roleName = roleName;
 		this.designationName = designationName;
-		this.reportingEmployees = reportingEmployees;
+		this.reportingEmployeeIds = reportingEmployeeIds;
+		this.reportingEmployeeNames = reportingEmployeeNames;
 	}
 
 	public int getEmployeeId() {
@@ -312,12 +317,22 @@ public class Employee {
 		this.designationId = designationId;
 	}
 
-	public String getReportingEmployees() {
-		return reportingEmployees;
+	public String getReportingEmployeeIds() {
+		return reportingEmployeeIds;
 	}
 
-	public void setReportingEmployees(String reportingEmployees) {
-		this.reportingEmployees = reportingEmployees;
+	public void setReportingEmployeeIds(String reportingEmployeeIds) {
+		this.reportingEmployeeIds = reportingEmployeeIds;
 	}
+
+	public String getReportingEmployeeNames() {
+		return reportingEmployeeNames;
+	}
+
+	public void setReportingEmployeeNames(String reportingEmployeeNames) {
+		this.reportingEmployeeNames = reportingEmployeeNames;
+	}
+
+	
 
 }

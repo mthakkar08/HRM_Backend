@@ -10,4 +10,7 @@ public interface LeaveBalanceRepository extends JpaRepository<LeaveBalance, Inte
 	@Query(value = "EXEC getLeaveBalanceById :employeeId", nativeQuery = true)
 	LeaveBalance getLeaveBalanceById(Integer employeeId);
 
+	@Query(value = "EXEC addEditCompoffLeave :compoffLeave, :employeeId, :ReportingEmployee", nativeQuery = true)
+	String addEditCompoffLeave(Integer compoffLeave, Integer employeeId, Integer ReportingEmployee);
+
 }
