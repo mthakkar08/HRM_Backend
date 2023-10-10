@@ -1,6 +1,5 @@
 package com.cement.hrm.controller;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +40,17 @@ public class HolidayController {
 
 	@PostMapping(UrlConstants.LIST)
 	@Transactional(readOnly = true)
-	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody HolidayRequest searchRequest)
-			throws ParseException {
-		return new ResponseEntity<>(
-				holidayService.fecthAllHolidaysBySearch(searchRequest),
-				HttpStatus.OK);
+	public ResponseEntity<List<Holiday>> fetchAllHolidaysBySearch(@RequestBody HolidayRequest searchRequest) {
+		return new ResponseEntity<>(holidayService.fecthAllHolidaysBySearch(searchRequest), HttpStatus.OK);
 	}
 
 	@DeleteMapping(UrlConstants.DELETE)
 	public String deleteHolidayById(@Param("HolidayId") int holidayId) {
 		return holidayService.deleteHolidayById(holidayId);
+	}
+
+	@PostMapping(UrlConstants.STATUS)
+	public String changeHolidayStatus(@RequestBody HolidayRequest holidayRequest) {
+		return holidayService.changeHolidayStatus(holidayRequest);
 	}
 }

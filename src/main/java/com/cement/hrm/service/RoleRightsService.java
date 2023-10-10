@@ -11,5 +11,7 @@ public interface RoleRightsService {
 	ResponseEntity<List<RoleRights>> fecthAllRoleRightsBySearch();
 
 	String addEditRoleRights(String roleRightsJson);
+	
+	String getRoleRightsById(int roleId);
 
 }

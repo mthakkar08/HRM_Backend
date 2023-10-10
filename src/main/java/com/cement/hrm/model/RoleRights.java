@@ -24,7 +24,6 @@ public class RoleRights {
 	@Column(name = "MenuId")
 	private int menuId;
 
-
 	@Column(name = "AccessRightId")
 	private int accessRightId;
 

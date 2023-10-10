@@ -28,4 +28,9 @@ public class RoleRightsServiceImpl implements RoleRightsService{
 		return roleRightsRepository.addEditRoleRights( roleRightsJson);
 	}
 
+	@Override
+	public String getRoleRightsById(int roleId) {
+		return roleRightsRepository.getRoleRightsById(roleId);
+	}
+
 }

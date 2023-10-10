@@ -26,4 +26,7 @@ public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
 
 	@Query(value = "EXEC deleteHolidayById :HolidayId", nativeQuery = true)
 	public String deleteById(@Param("HolidayId") int holidayId);
+
+	@Query(value = "EXEC changeHolidayStatus :status, :holidayId, :employeeId", nativeQuery = true)
+	public String changeHolidayStatus(Integer status, Integer holidayId, Integer employeeId);
 }

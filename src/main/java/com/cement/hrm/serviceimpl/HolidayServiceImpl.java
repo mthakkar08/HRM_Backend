@@ -75,4 +75,9 @@ public class HolidayServiceImpl implements HolidayService {
 		return null;
 	}
 
+	@Override
+	public String changeHolidayStatus(HolidayRequest holidayRequest) {
+		return holidayRepository.changeHolidayStatus(holidayRequest.getStatus(), holidayRequest.getHolidayId(), holidayRequest.getEmployeeId());
+	}
+
 }

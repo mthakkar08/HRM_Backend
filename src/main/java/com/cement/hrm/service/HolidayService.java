@@ -16,4 +16,6 @@ public interface HolidayService {
 
 	String deleteHolidayById(int holidayId);
 
+	String changeHolidayStatus(HolidayRequest holidayRequest);
+
 }
