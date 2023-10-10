@@ -33,4 +33,7 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer> {
 	String getLeavesByReportingEmployee(@Param("LeaveSubject") String leaveSubject,
 			@Param("LeaveStatus") Integer leaveStatus, @Param("LeaveDate") Date leaveDate, Integer employeeId);
 
+	@Query(value = "EXEC getLeaveHistoryByReportingEmployee :leaveId", nativeQuery = true)
+	String getLeaveHistoryByReportingEmployee(Integer leaveId);
+
 }

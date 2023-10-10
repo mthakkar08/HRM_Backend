@@ -50,8 +50,13 @@ public class LeaveController {
 		return new ResponseEntity<>(leaveService.changeLeaveStatus(statusRequest), HttpStatus.OK);
 	}
 	
-	@PostMapping("sortby")
+	@PostMapping(UrlConstants.SORT_BY_LIST)
 	private ResponseEntity<?> getLeavesByReportingEmployee(@RequestBody LeaveRequest leaveRequest) {
 		return new ResponseEntity<>(leaveService.getLeavesByReportingEmployee(leaveRequest), HttpStatus.OK);
+	}
+	
+	@GetMapping(UrlConstants.HISTORY)
+	private ResponseEntity<?> getLeaveHistoryByReportingEmployee(@RequestParam("LeaveId") Integer leaveId) {
+		return new ResponseEntity<>(leaveService.getLeaveHistoryByReportingEmployee(leaveId), HttpStatus.OK);
 	}
 }

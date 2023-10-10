@@ -20,4 +20,6 @@ public interface LeaveService<T> {
 
 	Object getLeavesByReportingEmployee(LeaveRequest leaveRequest);
 
+	Object getLeaveHistoryByReportingEmployee(Integer leaveId);
+
 }
