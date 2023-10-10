@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cement.hrm.model.Leave;
 import com.cement.hrm.repository.LeaveRepository;
 import com.cement.hrm.request.LeaveRequest;
+import com.cement.hrm.response.LeaveHistory;
 import com.cement.hrm.service.LeaveService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -92,6 +93,24 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 			e.printStackTrace();
 		}
 		return leaveList;
+	}
+
+	@Override
+	public Object getLeaveHistoryByReportingEmployee(Integer leaveId) {
+		List<LeaveHistory> history = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonObj = leaveRepository.getLeaveHistoryByReportingEmployee(leaveId);
+			if (jsonObj != null) {
+				history = mapper.readValue(jsonObj, new TypeReference<List<LeaveHistory>>() {
+				});
+				return history;
+			}
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return history;
 	}
 
 }
