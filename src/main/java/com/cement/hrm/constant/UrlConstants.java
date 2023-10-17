@@ -9,10 +9,10 @@ public final class UrlConstants {
 	public static final String MENU = "/menu";
 	public static final String HOLIDAY = "/holiday";
 	public static final String ACCESSRIGHT = "/accessright";
-	public static final String LEAVE="/leave";
-	public static final String MAIL="/mail";
-	public static final String LEAVE_POLICY="/leavepolicy";
-	public static final String LEAVE_BALANCE="/leavebalance";
+	public static final String LEAVE = "/leave";
+	public static final String MAIL = "/mail";
+	public static final String LEAVE_POLICY = "/leavepolicy";
+	public static final String LEAVE_BALANCE = "/leavebalance";
 
 	public static final String LOG_IN = "/login";
 	public static final String GET_BY_ID = "/get";
@@ -26,5 +26,6 @@ public final class UrlConstants {
 	public static final String SEARCH = "/search";
 	public static final String SORT_BY_LIST = "/sortby";
 	public static final String HISTORY = "/history";
+	public static final String MANAGE = "/manage";
 
 }
