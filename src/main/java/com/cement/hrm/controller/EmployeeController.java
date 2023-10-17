@@ -76,5 +76,10 @@ public class EmployeeController {
 	public ResponseEntity<List<ReportingEmployee>> bindEmployeeList() {
 		return new ResponseEntity<>(employeeService.bindEmployeeList(), HttpStatus.OK);
 	}
+	
+	@GetMapping("manage")
+	public ResponseEntity<List<Employee>> manageEmployees() {
+		return new ResponseEntity<>(employeeService.manageEmployees(), HttpStatus.OK);
+	}
 
 }

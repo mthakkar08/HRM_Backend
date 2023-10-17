@@ -244,4 +244,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
+	@Override
+	public List<Employee> manageEmployees() {
+		List<Employee> manageEmployees = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonObj = employeeRepository.manageEmployees();
+			if (jsonObj != null) {
+				manageEmployees = mapper.readValue(jsonObj, new TypeReference<List<Employee>>() {
+				});
+				return manageEmployees;
+			}
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return manageEmployees;
+	}
+
 }

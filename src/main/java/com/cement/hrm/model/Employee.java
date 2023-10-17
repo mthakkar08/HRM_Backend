@@ -1,6 +1,7 @@
 package com.cement.hrm.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,9 @@ public class Employee {
 	// @JsonProperty("EmployeeName")
 	@Column(name = "EmployeeName")
 	private String employeeName;
+
+	@Column(name = "ParentId")
+	private Integer parentId;
 
 	// @JsonProperty("Dob")
 	@Column(name = "Dob")
@@ -102,9 +106,12 @@ public class Employee {
 
 	@Transient
 	private String reportingEmployeeIds;
-	
+
 	@Transient
 	private String reportingEmployeeNames;
+
+	@Transient
+	private List<Employee> childs;
 
 	public Employee() {
 		super();
@@ -117,15 +124,15 @@ public class Employee {
 		this.password = password;
 	}
 
-	
-	public Employee(int employeeId, String employeeName, String dob, int gender, long phoneNumber, String email,
-			String password, String address, String experience, int status, Date hiringDate, Date joiningDate,
-			Date terminationDate, int createdBy, Date createdDate, Integer modifiedBy, Date modifiedDate,
-			Integer roleId, Integer designationId, String roleName, String designationName, String reportingEmployeeIds,
-			String reportingEmployeeNames) {
+	public Employee(int employeeId, String employeeName, Integer parentId, String dob, int gender, long phoneNumber,
+			String email, String password, String address, String experience, int status, Date hiringDate,
+			Date joiningDate, Date terminationDate, int createdBy, Date createdDate, Integer modifiedBy,
+			Date modifiedDate, Integer roleId, Integer designationId, String roleName, String designationName,
+			String reportingEmployeeIds, String reportingEmployeeNames, List<Employee> childs) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeName = employeeName;
+		this.parentId = parentId;
 		this.dob = dob;
 		this.gender = gender;
 		this.phoneNumber = phoneNumber;
@@ -147,6 +154,7 @@ public class Employee {
 		this.designationName = designationName;
 		this.reportingEmployeeIds = reportingEmployeeIds;
 		this.reportingEmployeeNames = reportingEmployeeNames;
+		this.childs = childs;
 	}
 
 	public int getEmployeeId() {
@@ -163,6 +171,14 @@ public class Employee {
 
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getDob() {
@@ -333,6 +349,12 @@ public class Employee {
 		this.reportingEmployeeNames = reportingEmployeeNames;
 	}
 
-	
+	public List<Employee> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(List<Employee> childs) {
+		this.childs = childs;
+	}
 
 }

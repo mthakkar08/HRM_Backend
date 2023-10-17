@@ -30,4 +30,6 @@ public interface EmployeeService extends UserDetailsService {
 
 	List<ReportingEmployee> bindEmployeeList();
 
+	List<Employee> manageEmployees();
+
 }

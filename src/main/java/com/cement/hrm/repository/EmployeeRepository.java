@@ -44,4 +44,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query(value = "EXEC deleteEmployeeById :employeeId", nativeQuery = true)
 	public String deleteEmployeeById(int employeeId);
 
+	@Query(value = "SELECT [dbo].[FUNC_MANAGE_EMPLOYEE](-1)", nativeQuery = true)
+	public String manageEmployees();
+
 }
