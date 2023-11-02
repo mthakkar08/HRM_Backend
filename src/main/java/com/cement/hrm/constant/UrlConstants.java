@@ -5,10 +5,10 @@ public final class UrlConstants {
 	public static final String EMPLOYEE = "/employee";
 	public static final String ROLE = "/role";
 	public static final String DESIGNATION = "/designation";
-	public static final String ROLERIGHTS = "/rolerights";
+	public static final String ROLE_RIGHTS = "/rolerights";
 	public static final String MENU = "/menu";
 	public static final String HOLIDAY = "/holiday";
-	public static final String ACCESSRIGHT = "/accessright";
+	public static final String ACCESS_RIGHT = "/accessright";
 	public static final String LEAVE = "/leave";
 	public static final String MAIL = "/mail";
 	public static final String LEAVE_POLICY = "/leavepolicy";

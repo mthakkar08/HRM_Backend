@@ -18,9 +18,9 @@ import com.cement.hrm.constant.UrlConstants;
 import com.cement.hrm.model.RoleRights;
 import com.cement.hrm.service.RoleRightsService;
 
-@RestController
-@RequestMapping(UrlConstants.ROLERIGHTS)
 @CrossOrigin
+@RestController
+@RequestMapping(UrlConstants.ROLE_RIGHTS)
 public class RoleRightsController {
 	
 	@Autowired

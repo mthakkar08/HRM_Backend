@@ -5,23 +5,25 @@ import java.util.Date;
 public class LeaveHistory {
 
 	private Integer leaveHistoryId;
-	private Integer leaveId;
-	private Integer employeeId;
-	private Integer respondedBy;
+	private String leaveSubject;
+	private Integer leaveStatus;
+	private String employeeName;
+	private String respondedBy;
 	private String responseMessage;
-	private Integer createdBy;
+	private String createdBy;
 	private Date createdDate;
 
 	public LeaveHistory() {
 		super();
 	}
 
-	public LeaveHistory(Integer leaveHistoryId, Integer leaveId, Integer employeeId, Integer respondedBy,
-			String responseMessage, Integer createdBy, Date createdDate) {
+	public LeaveHistory(Integer leaveHistoryId, String leaveSubject, Integer leaveStatus, String employeeName,
+			String respondedBy, String responseMessage, String createdBy, Date createdDate) {
 		super();
 		this.leaveHistoryId = leaveHistoryId;
-		this.leaveId = leaveId;
-		this.employeeId = employeeId;
+		this.leaveSubject = leaveSubject;
+		this.leaveStatus = leaveStatus;
+		this.employeeName = employeeName;
 		this.respondedBy = respondedBy;
 		this.responseMessage = responseMessage;
 		this.createdBy = createdBy;
@@ -36,27 +38,35 @@ public class LeaveHistory {
 		this.leaveHistoryId = leaveHistoryId;
 	}
 
-	public Integer getLeaveId() {
-		return leaveId;
+	public String getLeaveSubject() {
+		return leaveSubject;
 	}
 
-	public void setLeaveId(Integer leaveId) {
-		this.leaveId = leaveId;
+	public void setLeaveSubject(String leaveSubject) {
+		this.leaveSubject = leaveSubject;
 	}
 
-	public Integer getEmployeeId() {
-		return employeeId;
+	public Integer getLeaveStatus() {
+		return leaveStatus;
 	}
 
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
+	public void setLeaveStatus(Integer leaveStatus) {
+		this.leaveStatus = leaveStatus;
 	}
 
-	public Integer getRespondedBy() {
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getRespondedBy() {
 		return respondedBy;
 	}
 
-	public void setRespondedBy(Integer respondedBy) {
+	public void setRespondedBy(String respondedBy) {
 		this.respondedBy = respondedBy;
 	}
 
@@ -68,11 +78,11 @@ public class LeaveHistory {
 		this.responseMessage = responseMessage;
 	}
 
-	public Integer getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Integer createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 

@@ -96,11 +96,11 @@ public class LeaveServiceImpl<T> implements LeaveService<T> {
 	}
 
 	@Override
-	public Object getLeaveHistoryByReportingEmployee(Integer leaveId) {
+	public Object getLeaveHistoryByLeaveId(Integer leaveId) {
 		List<LeaveHistory> history = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			String jsonObj = leaveRepository.getLeaveHistoryByReportingEmployee(leaveId);
+			String jsonObj = leaveRepository.getLeaveHistoryByLeaveId(leaveId);
 			if (jsonObj != null) {
 				history = mapper.readValue(jsonObj, new TypeReference<List<LeaveHistory>>() {
 				});

@@ -18,10 +18,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 	@Query(value ="EXEC deleteRoleById :RoleId", nativeQuery = true)
 	String deleteById(@Param("RoleId")int roleId);
 
-	@Query(value = "EXEC addEditRole :RoleId, :RoleName, :Status, :CreatedBy, :ModifiedBy",nativeQuery = true)
-	String addEditRole(@Param("RoleId")int roleId,@Param("RoleName")String roleName,@Param("Status") int status,@Param("CreatedBy")int createdBy,@Param("ModifiedBy") int modifiedBy);
+	@Query(value = "EXEC addEditRole :RoleName",nativeQuery = true)
+	String addEditRole(@Param("RoleName")String roleName);
 	
-	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM Role as r WHERE Status <> 2 and RoleName like :RoleName")
+	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM Role as r WHERE Status <> 2 and RoleName like "+"%"+":RoleName"+"%")
 	List<Role> fetchAllRolesBySearch(@Param("RoleName")String roleName);
 	
 	@Query("SELECT new com.cement.hrm.model.Role(r.roleId, r.roleName, r.status, r.createdBy, r.modifiedBy) FROM Role as r WHERE Status <> 2")

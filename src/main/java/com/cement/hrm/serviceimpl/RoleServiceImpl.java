@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public String addEditRole(Role role) {
-		return roleRepository.addEditRole(role.getRoleId(), role.getRoleName(), role.getStatus(), role.getCreatedBy(), role.getModifiedBy());
+		return roleRepository.addEditRole(role.getRoleName());
 	}
 
 	@Override

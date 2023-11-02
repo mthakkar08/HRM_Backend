@@ -49,7 +49,7 @@ public class RoleController {
 	}
 	
 	@GetMapping(UrlConstants.SEARCH)
-	public ResponseEntity<List<Role>> fecthAllRoleBySearch(@RequestParam("RoleName")String roleName) {
+	public ResponseEntity<List<Role>> fecthAllRoleBySearch(@RequestParam("RoleName") String roleName) {
 		return roleService.fetchAllRolesBySearch(roleName);
 	}
  

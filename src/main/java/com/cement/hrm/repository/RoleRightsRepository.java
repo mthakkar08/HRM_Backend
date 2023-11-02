@@ -10,7 +10,7 @@ import com.cement.hrm.model.RoleRights;
 @Repository
 public interface RoleRightsRepository extends JpaRepository<RoleRights, Integer>{
 	
-	@Query(value = "EXEC addEditRoleRights :RoleRightsJson", nativeQuery = true)
+	@Query(value = "EXEC [newAddEditRoleRights] :RoleRightsJson", nativeQuery = true)
 	public String addEditRoleRights(@Param("RoleRightsJson")String roleRightsJson);
 
 	@Query(value = "EXEC [getRoleRightsByRoleId] :roleId", nativeQuery = true)
