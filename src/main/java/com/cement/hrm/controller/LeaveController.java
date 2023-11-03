@@ -56,7 +56,7 @@ public class LeaveController {
 	}
 	
 	@GetMapping(UrlConstants.HISTORY)
-	private ResponseEntity<?> getLeaveHistoryByReportingEmployee(@RequestParam("LeaveId") Integer leaveId) {
-		return new ResponseEntity<>(leaveService.getLeaveHistoryByReportingEmployee(leaveId), HttpStatus.OK);
+	private ResponseEntity<?> getLeaveHistoryByLeaveId(@RequestParam("LeaveId") Integer leaveId) {
+		return new ResponseEntity<>(leaveService.getLeaveHistoryByLeaveId(leaveId), HttpStatus.OK);
 	}
 }

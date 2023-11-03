@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public String addEditRole(Role role) {
-		return roleRepository.addEditRole(role.getRoleId(), role.getRoleName(), role.getStatus(), role.getCreatedBy(), role.getModifiedBy());
+		return roleRepository.addEditRole(role.getRoleName());
 	}
 
 	@Override
@@ -54,6 +54,14 @@ public class RoleServiceImpl implements RoleService {
 		return new ResponseEntity<>(AllRoles,HttpStatus.OK);
 	}
 
+	@Override
+	public String addEditRoleRights(String roleRightsJson) {
+		return roleRepository.addEditRoleRights( roleRightsJson);
+	}
 
+	@Override
+	public String getRoleRightsByRoleId(int roleId) {
+		return roleRepository.getRoleRightsByRoleId(roleId);
+	}
 
 }

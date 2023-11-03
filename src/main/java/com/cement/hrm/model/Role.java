@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 @Table(name = "Roles")
 public class Role {
@@ -24,10 +22,10 @@ public class Role {
 	private String roleName;
 
 	@Column(name = "Status")
-	private int status;
+	private Integer status;
 
 	@Column(name = "CreatedBy")
-	private int createdBy;
+	private Integer createdBy;
 
 	@Column(name = "CreatedDate")
 	private Date createdDate;
@@ -42,7 +40,7 @@ public class Role {
 		super();
 	}
 
-	public Role(int roleId, String roleName, int status, int createdBy, Integer modifiedBy) {
+	public Role(int roleId, String roleName, Integer status, Integer createdBy, Integer modifiedBy) {
 		super();
 		this.roleId = roleId;
 		this.roleName = roleName;
@@ -51,7 +49,7 @@ public class Role {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Role(int roleId, String roleName, int status, int createdBy, Date createdDate, Integer modifiedBy,
+	public Role(int roleId, String roleName, Integer status, Integer createdBy, Date createdDate, Integer modifiedBy,
 			Date modifiedDate) {
 		super();
 		this.roleId = roleId;
@@ -79,19 +77,19 @@ public class Role {
 		this.roleName = roleName;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
