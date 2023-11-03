@@ -54,6 +54,14 @@ public class RoleServiceImpl implements RoleService {
 		return new ResponseEntity<>(AllRoles,HttpStatus.OK);
 	}
 
+	@Override
+	public String addEditRoleRights(String roleRightsJson) {
+		return roleRepository.addEditRoleRights( roleRightsJson);
+	}
 
+	@Override
+	public String getRoleRightsByRoleId(int roleId) {
+		return roleRepository.getRoleRightsByRoleId(roleId);
+	}
 
 }

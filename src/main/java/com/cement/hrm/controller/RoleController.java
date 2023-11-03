@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,4 +54,14 @@ public class RoleController {
 		return roleService.fetchAllRolesBySearch(roleName);
 	}
  
+	@PostMapping(UrlConstants.RIGHTS_ADD_EDIT)
+	public String addEditRoleRights(@RequestBody String roleRightsJson) {
+		return roleService.addEditRoleRights(roleRightsJson);
+	}
+	
+	@GetMapping(UrlConstants.RIGHTS_GET_BY_ID)
+	@Transactional(readOnly = true)
+	public ResponseEntity<?> getRoleRightsByRoleId(@RequestParam int roleId) {
+		return new ResponseEntity<>(roleService.getRoleRightsByRoleId(roleId),HttpStatus.OK);
+	}
 }
